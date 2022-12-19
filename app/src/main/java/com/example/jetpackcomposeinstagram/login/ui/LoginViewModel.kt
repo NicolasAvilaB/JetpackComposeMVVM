@@ -37,12 +37,11 @@ class LoginViewModel @Inject constructor(private val loginUseCase: LoginUseCase)
             _isLoading.value = true
             val result = loginUseCase(email.value!!, password.value!!)
             when (result) {
-                result -> Log.i("GENIAL", "WEEEEENA loko")
+                result -> Log.i(email.value!!, password.value!!)
             }
             _isLoading.value = false
         }
     }
 
-    fun enableLogin(email: String, password: String) =
-        Patterns.EMAIL_ADDRESS.matcher(email).matches() && password.length > 6
+    fun enableLogin(email: String, password: String) = Patterns.EMAIL_ADDRESS.matcher(email).matches() && password.length > 6
 }
