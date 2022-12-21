@@ -1,9 +1,8 @@
-package com.example.jetpackcomposeinstagram.login.data.network
+package com.example.jetpackcomposeinstagram.data
 
-import com.example.jetpackcomposeinstagram.core.network.RetrofitHelper
+import com.example.jetpackcomposeinstagram.data.LoginClient
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import retrofit2.Retrofit
 import javax.inject.Inject
 
 class LoginService @Inject constructor(private val loginClient: LoginClient){

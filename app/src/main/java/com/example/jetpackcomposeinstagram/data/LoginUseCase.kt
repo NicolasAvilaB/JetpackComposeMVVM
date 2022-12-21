@@ -1,6 +1,6 @@
-package com.example.jetpackcomposeinstagram.login.domain
+package com.example.jetpackcomposeinstagram.data
 
-import com.example.jetpackcomposeinstagram.login.data.network.LoginRepository
+import com.example.jetpackcomposeinstagram.data.LoginRepository
 import javax.inject.Inject
 
 class LoginUseCase @Inject constructor(private val repository : LoginRepository){

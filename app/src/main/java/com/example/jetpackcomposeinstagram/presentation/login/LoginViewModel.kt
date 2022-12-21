@@ -1,4 +1,4 @@
-package com.example.jetpackcomposeinstagram.login.ui
+package com.example.jetpackcomposeinstagram.presentation.login
 
 import android.util.Log
 import android.util.Patterns
@@ -6,13 +6,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.jetpackcomposeinstagram.login.domain.LoginUseCase
+import com.example.jetpackcomposeinstagram.data.LoginUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class LoginViewModel @Inject constructor(private val loginUseCase: LoginUseCase): ViewModel() {
+class LoginViewModel @Inject constructor(private val loginUseCase: LoginUseCase) : ViewModel() {
 
     private val _email = MutableLiveData<String>()
     val email: LiveData<String> = _email
@@ -35,13 +35,14 @@ class LoginViewModel @Inject constructor(private val loginUseCase: LoginUseCase)
     fun onLogin() {
         viewModelScope.launch {
             _isLoading.value = true
-            val result = loginUseCase(email.value!!, password.value!!)
+            val result = loginUseCase(email.value.orEmpty(), password.value.orEmpty())
             when (result) {
-                result -> Log.i(email.value!!, password.value!!)
+                result -> Log.i(email.value.orEmpty(), password.value.orEmpty())
             }
             _isLoading.value = false
         }
     }
 
-    fun enableLogin(email: String, password: String) = Patterns.EMAIL_ADDRESS.matcher(email).matches() && password.length > 6
+    fun enableLogin(email: String, password: String) =
+        Patterns.EMAIL_ADDRESS.matcher(email).matches() && password.length > 6
 }

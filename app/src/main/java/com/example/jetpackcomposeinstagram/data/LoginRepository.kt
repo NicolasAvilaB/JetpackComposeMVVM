@@ -1,4 +1,4 @@
-package com.example.jetpackcomposeinstagram.login.data.network
+package com.example.jetpackcomposeinstagram.data
 
 import javax.inject.Inject
 
