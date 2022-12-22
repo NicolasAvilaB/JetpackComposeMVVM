@@ -1,6 +1,6 @@
-package com.example.jetpackcomposeinstagram.core.network
+package com.example.jetpackcomposeinstagram.data.remote
 
-import com.example.jetpackcomposeinstagram.login.data.network.LoginClient
+import com.example.jetpackcomposeinstagram.data.LoginClient
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -23,7 +23,7 @@ class NetworkModule {
 
     @Singleton
     @Provides
-    fun provideLoginClient(retrofit: Retrofit): LoginClient{
+    fun provideLoginClient(retrofit: Retrofit): LoginClient {
         return retrofit.create(LoginClient::class.java)
     }
 }
