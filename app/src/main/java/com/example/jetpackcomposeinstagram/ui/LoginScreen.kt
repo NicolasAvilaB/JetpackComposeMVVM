@@ -25,13 +25,13 @@ import androidx.compose.ui.unit.sp
 import com.example.jetpackcomposeinstagram.presentation.login.LoginViewModel
 
 @Composable
-fun LoginScreen(loginViewModel: LoginViewModel) {
+fun LoginScreen(loginIntentHandler: LoginIntentHandler) {
     Box(
         Modifier
             .fillMaxSize()
             .padding(8.dp)
     ) {
-        val isLoading: Boolean by loginViewModel.isLoading.observeAsState(initial = false)
+        /*val isLoading: Boolean by loginViewModel.isLoading.observeAsState(initial = false)
         if (isLoading){
             Box(
                 Modifier
@@ -41,10 +41,10 @@ fun LoginScreen(loginViewModel: LoginViewModel) {
                 CircularProgressIndicator()
             }
         }else {
-            Header(Modifier.align(Alignment.TopEnd))
-            Body(Modifier.align(Alignment.Center), loginViewModel)
 //            Footer(Modifier.align(Alignment.BottomCenter))
-        }
+        }*/
+            Header(Modifier.align(Alignment.TopEnd))
+            Body(Modifier.align(Alignment.Center), loginIntentHandler)
     }
 }
 
@@ -80,25 +80,25 @@ fun SignUp() {
 }
 
 @Composable
-fun Body(modifier: Modifier, loginViewModel: LoginViewModel) {
-    val email:String by loginViewModel.email.observeAsState(initial = "")
-    val password:String by loginViewModel.password.observeAsState(initial = "")
-    val isLoginEnable:Boolean by loginViewModel.isLoginEnable.observeAsState(initial = false)
+fun Body(modifier: Modifier, loginIntentHandler: LoginIntentHandler) {
+//    val email:String by loginViewModel.email.observeAsState(initial = "")
+//    val password:String by loginViewModel.password.observeAsState(initial = "")
+//    val isLoginEnable:Boolean by loginViewModel.isLoginEnable.observeAsState(initial = false)
 
     Column(modifier = modifier) {
         Saludo(Modifier.align(Alignment.CenterHorizontally))
         Spacer(modifier = Modifier.size(16.dp))
-        Email(email) {
+        /*Email(email) {
             loginViewModel.onLoginChanged(email = it, password = password)
         }
         Spacer(modifier = Modifier.size(4.dp))
         Password(password) {
             loginViewModel.onLoginChanged(email = email, password = it)
-        }
+        }*/
         Spacer(modifier = Modifier.size(8.dp))
         ForgotPassword(Modifier.align(Alignment.End))
         Spacer(modifier = Modifier.size(16.dp))
-        LoginButton(isLoginEnable, loginViewModel)
+        LoginButton(loginIntentHandler)
         Spacer(modifier = Modifier.size(16.dp))
 //        LoginDivider()
 //        SocialLogin()
@@ -153,10 +153,9 @@ fun LoginDivider() {
 }*/
 
 @Composable
-fun LoginButton(loginEnable: Boolean, loginViewModel: LoginViewModel) {
+fun LoginButton(loginIntentHandler: LoginIntentHandler) {
     Button(
-        onClick = { loginViewModel.onLogin()},
-        enabled = loginEnable,
+        onClick = { loginIntentHandler.pressButtonLogin()},
         modifier = Modifier.fillMaxWidth(),
         colors = ButtonDefaults.buttonColors(
             backgroundColor = Color(0xFF4EA8E9),

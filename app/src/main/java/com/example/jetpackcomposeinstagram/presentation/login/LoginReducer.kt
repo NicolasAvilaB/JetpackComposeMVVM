@@ -23,9 +23,18 @@ class LoginReducer {
     infix fun LoadingUiState.reduceWith(result: LoginResult) = when (result){
         is OnLoginResult.Error -> ErrorUiState
         is OnLoginResult.Success -> SuccessUiState
-        is OnLoginResult.InProgress -> TODO()
+        is OnLoginResult.InProgress -> LoadingUiState
         else -> throw unsupportedReduceCase()
+    }
 
+    private infix fun ErrorUiState.reduceWith(result: LoginResult) = when (result) {
+        is OnLoginResult -> LoadingUiState
+        else -> throw unsupportedReduceCase()
+    }
+
+    private infix fun InactiveUiState.reduceWith(result: LoginResult) = when (result) {
+        is OnLoginResult -> LoadingUiState
+        else -> throw unsupportedReduceCase()
     }
 
 }

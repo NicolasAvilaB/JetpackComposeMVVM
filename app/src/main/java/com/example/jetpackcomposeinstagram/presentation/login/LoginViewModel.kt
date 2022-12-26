@@ -1,20 +1,46 @@
 package com.example.jetpackcomposeinstagram.presentation.login
 
-import android.util.Log
-import android.util.Patterns
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.jetpackcomposeinstagram.domain.LoginUseCase
-import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.launch
-import javax.inject.Inject
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.*
 
-@HiltViewModel
-class LoginViewModel @Inject constructor(private val loginUseCase: LoginUseCase) : ViewModel() {
+class LoginViewModel constructor(
+    private val reducer: LoginReducer,
+    private val processor: LoginProcessor
+) : ViewModel() {
 
-    private val _email = MutableLiveData<String>()
+    fun loginuiState(): StateFlow<LoginUIState> = loginuiState
+    val loginInactiveUiState: LoginUIState = LoginUIState.InactiveUiState
+    private val loginuiState: MutableStateFlow<LoginUIState> = MutableStateFlow(loginInactiveUiState)
+
+    fun processUserIntentsAndObserveUiStates(
+        loginIntents: Flow<LoginUIntent>,
+        coroutineScope: CoroutineScope = viewModelScope,
+    ) {
+        loginIntents.buffer()
+            .flatMapMerge { loginIntent ->
+                processor.actionProcessor(loginIntent.toAction())
+            }
+            .scan(loginInactiveUiState) { previousUiState, result ->
+                with(reducer) { previousUiState reduceWith result }
+            }
+            .onEach {
+                loginuiState.value = it
+            }
+            .launchIn(coroutineScope)
+    }
+
+    private fun LoginUIntent.toAction(): LoginAction {
+        return when (this) {
+            LoginUIntent.OnLoginUIntent -> LoginAction.OnLoginAction
+        }
+    }
+
+
+    /*private val _email = MutableLiveData<String>()
     val email: LiveData<String> = _email
 
     private val _password = MutableLiveData<String>()
@@ -45,5 +71,5 @@ class LoginViewModel @Inject constructor(private val loginUseCase: LoginUseCase)
     }
 
     fun enableLogin(email: String, password: String) =
-        Patterns.EMAIL_ADDRESS.matcher(email).matches() && password.length > 6
+        Patterns.EMAIL_ADDRESS.matcher(email).matches() && password.length > 6*/
 }
