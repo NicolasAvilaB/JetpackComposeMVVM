@@ -18,7 +18,7 @@ class LoginProcessor {
             LoginAction.OnLoginAction -> onLoginProcessor()
         }
 
-    private suspend fun onLoginProcessor(): Flow<OnLoginResult> =
+    fun onLoginProcessor(): Flow<OnLoginResult> =
         repository.doLogin("", "")
             .map { remoteLogin ->
                 Success(remoteLogin) as OnLoginResult

@@ -1,8 +1,5 @@
 package com.example.jetpackcomposeinstagram.ui
 
-<<<<<<< HEAD
-class LoginIntentHandler {
-=======
 import android.util.Log
 import com.example.jetpackcomposeinstagram.presentation.login.LoginUIntent
 import com.example.jetpackcomposeinstagram.presentation.login.LoginUIntent.OnLoginUIntent
@@ -24,5 +21,4 @@ class LoginIntentHandler {
         }
     }
 
->>>>>>> develop
 }

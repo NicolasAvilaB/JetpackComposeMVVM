@@ -21,10 +21,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-<<<<<<< HEAD:app/src/main/java/com/example/jetpackcomposeinstagram/ui/LoginScreen.kt
-=======
 import com.example.jetpackcomposeinstagram.presentation.login.LoginUIState
->>>>>>> develop:app/src/main/java/com/example/jetpackcomposeinstagram/login/ui/LoginScreen.kt
 import com.example.jetpackcomposeinstagram.presentation.login.LoginViewModel
 
 @Composable
