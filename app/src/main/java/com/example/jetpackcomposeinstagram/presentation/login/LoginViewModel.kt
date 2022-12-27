@@ -2,18 +2,17 @@ package com.example.jetpackcomposeinstagram.presentation.login
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.jetpackcomposeinstagram.domain.LoginUseCase
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.*
+import javax.inject.Inject
 
-class LoginViewModel constructor(
-    private val reducer: LoginReducer,
-    private val processor: LoginProcessor
-) : ViewModel() {
+class LoginViewModel : ViewModel() {
+
+    private val reducer = LoginReducer()
+    private val processor= LoginProcessor()
 
     fun loginuiState(): StateFlow<LoginUIState> = loginuiState
-    val loginInactiveUiState: LoginUIState = LoginUIState.InactiveUiState
+    val loginInactiveUiState: LoginUIState = LoginUIState.DefaultUiState
     private val loginuiState: MutableStateFlow<LoginUIState> = MutableStateFlow(loginInactiveUiState)
 
     fun processUserIntentsAndObserveUiStates(
@@ -36,6 +35,7 @@ class LoginViewModel constructor(
     private fun LoginUIntent.toAction(): LoginAction {
         return when (this) {
             LoginUIntent.OnLoginUIntent -> LoginAction.OnLoginAction
+            LoginUIntent.ValidatorButtonLoginUIntent -> LoginAction.ValidatorButtonLoginAction
         }
     }
 

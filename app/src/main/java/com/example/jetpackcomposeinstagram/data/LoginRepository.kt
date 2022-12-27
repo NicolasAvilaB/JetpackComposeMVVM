@@ -5,10 +5,12 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
-class LoginRepository @Inject constructor(private val api : LoginService){
+class LoginRepository {
+
+    private val api = LoginService()
 
     fun doLogin(user:String, password:String): Flow<RemoteLogin> = flow {
         val response = api.doLogin(user,password)
-        emit(response)
+        emit(response as RemoteLogin)
     }
 }

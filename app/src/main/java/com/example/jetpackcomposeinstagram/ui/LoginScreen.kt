@@ -11,7 +11,6 @@ import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.runtime.*
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -22,10 +21,34 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.jetpackcomposeinstagram.presentation.login.LoginUIState
 import com.example.jetpackcomposeinstagram.presentation.login.LoginViewModel
 
 @Composable
-fun LoginScreen(loginIntentHandler: LoginIntentHandler) {
+fun LoginScreen(loginViewModel: LoginViewModel) {
+
+    val loginIntentHandler = LoginIntentHandler().apply {
+        coroutineScope = rememberCoroutineScope()
+    }
+    loginViewModel.processUserIntentsAndObserveUiStates(loginIntentHandler.loginIntents())
+    val uiState =
+        remember { loginViewModel.loginuiState() }.collectAsState(initial = loginViewModel.loginInactiveUiState)
+    LoginContent(loginIntentHandler, uiState)
+}
+
+@Composable
+fun LoadingComponent() {
+    Box(
+        Modifier
+            .fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        CircularProgressIndicator()
+    }
+}
+
+@Composable
+fun DisplayLoginComponent(loginIntentHandler: LoginIntentHandler) {
     Box(
         Modifier
             .fillMaxSize()
@@ -41,10 +64,29 @@ fun LoginScreen(loginIntentHandler: LoginIntentHandler) {
                 CircularProgressIndicator()
             }
         }else {
-//            Footer(Modifier.align(Alignment.BottomCenter))
+        //Footer(Modifier.align(Alignment.BottomCenter))
         }*/
-            Header(Modifier.align(Alignment.TopEnd))
-            Body(Modifier.align(Alignment.Center), loginIntentHandler)
+        Header(Modifier.align(Alignment.TopEnd))
+        Body(Modifier.align(Alignment.Center), loginIntentHandler)
+    }
+}
+
+@Composable
+fun LoginContent(loginIntentHandler: LoginIntentHandler, uiState: State<LoginUIState>) {
+    when (uiState.value) {
+        LoginUIState.ErrorUiState -> println("Error Uistate, se fue a las pailas")
+        LoginUIState.DefaultUiState -> {
+            println("Default Uistate")
+            DisplayLoginComponent(loginIntentHandler)
+        }
+        LoginUIState.LoadingUiState -> {
+            println("Loading Uistate")
+            LoadingComponent()
+        }
+        LoginUIState.SuccessUiState -> {
+            DisplayLoginComponent(loginIntentHandler)
+            println("Success Uistate")
+        }
     }
 }
 
@@ -100,6 +142,7 @@ fun Body(modifier: Modifier, loginIntentHandler: LoginIntentHandler) {
         Spacer(modifier = Modifier.size(16.dp))
         LoginButton(loginIntentHandler)
         Spacer(modifier = Modifier.size(16.dp))
+        ButtonValidator(loginIntentHandler)
 //        LoginDivider()
 //        SocialLogin()
     }
@@ -153,9 +196,25 @@ fun LoginDivider() {
 }*/
 
 @Composable
+fun ButtonValidator(loginIntentHandler: LoginIntentHandler) {
+    Button(
+        onClick = { loginIntentHandler.ValidatorButtonpressing() },
+        modifier = Modifier.fillMaxWidth(),
+        colors = ButtonDefaults.buttonColors(
+            backgroundColor = Color(0xFFE46A28),
+            disabledBackgroundColor = Color(0xFFFCA176),
+            contentColor = Color.White,
+            disabledContentColor = Color.White
+        )
+    ) {
+        Text(text = "Log In")
+    }
+}
+
+@Composable
 fun LoginButton(loginIntentHandler: LoginIntentHandler) {
     Button(
-        onClick = { loginIntentHandler.pressButtonLogin()},
+        onClick = { loginIntentHandler.pressButtonLogin() },
         modifier = Modifier.fillMaxWidth(),
         colors = ButtonDefaults.buttonColors(
             backgroundColor = Color(0xFF4EA8E9),
@@ -236,7 +295,7 @@ fun Email(email: String, onTextChanged: (String) -> Unit) {
 
 @Composable
 fun Saludo(modifier: Modifier) {
-    Text(text= "Hola!", modifier = modifier, fontWeight = FontWeight.Bold, fontSize = 28.sp)
+    Text(text = "Hola!", modifier = modifier, fontWeight = FontWeight.Bold, fontSize = 28.sp)
 }
 
 @Composable

@@ -2,10 +2,9 @@ package com.example.jetpackcomposeinstagram.presentation.login
 
 import com.example.jetpackcomposeinstagram.presentation.login.LoginResult.OnLoginResult
 import com.example.jetpackcomposeinstagram.presentation.login.LoginUIState.ErrorUiState
-import com.example.jetpackcomposeinstagram.presentation.login.LoginUIState.InactiveUiState
+import com.example.jetpackcomposeinstagram.presentation.login.LoginUIState.DefaultUiState
 import com.example.jetpackcomposeinstagram.presentation.login.LoginUIState.LoadingUiState
 import com.example.jetpackcomposeinstagram.presentation.login.LoginUIState.SuccessUiState
-import kotlinx.coroutines.flow.*
 
 class LoginReducer {
 
@@ -14,7 +13,7 @@ class LoginReducer {
     infix fun LoginUIState.reduceWith(result: LoginResult): LoginUIState {
         return when (val previousState = this) {
             is ErrorUiState -> previousState reduceWith result
-            is InactiveUiState -> previousState reduceWith result
+            is DefaultUiState -> previousState reduceWith result
             is LoadingUiState -> previousState reduceWith result
             is SuccessUiState -> previousState reduceWith result
         }
@@ -27,13 +26,18 @@ class LoginReducer {
         else -> throw unsupportedReduceCase()
     }
 
+    /*private infix fun SuccessUiState.reduceWith(result: LoginResult) = when (result) {
+        is OnLoginResult.InProgress -> LoadingUiState
+        else -> throw unsupportedReduceCase()
+    }*/
+
     private infix fun ErrorUiState.reduceWith(result: LoginResult) = when (result) {
-        is OnLoginResult -> LoadingUiState
+        is OnLoginResult.InProgress -> LoadingUiState
         else -> throw unsupportedReduceCase()
     }
 
-    private infix fun InactiveUiState.reduceWith(result: LoginResult) = when (result) {
-        is OnLoginResult -> LoadingUiState
+    private infix fun DefaultUiState.reduceWith(result: LoginResult) = when (result) {
+        is OnLoginResult.InProgress -> LoadingUiState
         else -> throw unsupportedReduceCase()
     }
 

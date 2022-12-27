@@ -1,5 +1,6 @@
 package com.example.jetpackcomposeinstagram.presentation.login
 
+import android.util.Log
 import com.example.jetpackcomposeinstagram.data.LoginRepository
 import com.example.jetpackcomposeinstagram.presentation.login.LoginResult.OnLoginResult
 import com.example.jetpackcomposeinstagram.presentation.login.LoginResult.OnLoginResult.Success
@@ -7,13 +8,15 @@ import com.example.jetpackcomposeinstagram.presentation.login.LoginResult.OnLogi
 import com.example.jetpackcomposeinstagram.presentation.login.LoginResult.OnLoginResult.InProgress
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
-import javax.inject.Inject
 
-class LoginProcessor @Inject constructor(private val repository: LoginRepository) {
+class LoginProcessor {
 
-    fun actionProcessor(actions: LoginAction): Flow<LoginResult> =
+    private val repository = LoginRepository()
+
+    fun actionProcessor(actions: LoginAction): Flow<OnLoginResult> =
         when (actions) {
             LoginAction.OnLoginAction -> onLoginProcessor()
+            LoginAction.ValidatorButtonLoginAction -> onLoginProcessor()
         }
 
     private fun onLoginProcessor(): Flow<OnLoginResult> =
