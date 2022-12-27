@@ -11,7 +11,6 @@ import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.runtime.*
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -22,16 +21,43 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+<<<<<<< HEAD:app/src/main/java/com/example/jetpackcomposeinstagram/ui/LoginScreen.kt
+=======
+import com.example.jetpackcomposeinstagram.presentation.login.LoginUIState
+>>>>>>> develop:app/src/main/java/com/example/jetpackcomposeinstagram/login/ui/LoginScreen.kt
 import com.example.jetpackcomposeinstagram.presentation.login.LoginViewModel
 
 @Composable
 fun LoginScreen(loginViewModel: LoginViewModel) {
+
+    val loginIntentHandler = LoginIntentHandler().apply {
+        coroutineScope = rememberCoroutineScope()
+    }
+    loginViewModel.processUserIntentsAndObserveUiStates(loginIntentHandler.loginIntents())
+    val uiState =
+        remember { loginViewModel.loginuiState() }.collectAsState(initial = loginViewModel.loginInactiveUiState)
+    LoginContent(loginIntentHandler, uiState)
+}
+
+@Composable
+fun LoadingComponent() {
+    Box(
+        Modifier
+            .fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        CircularProgressIndicator()
+    }
+}
+
+@Composable
+fun DisplayLoginComponent(loginIntentHandler: LoginIntentHandler) {
     Box(
         Modifier
             .fillMaxSize()
             .padding(8.dp)
     ) {
-        val isLoading: Boolean by loginViewModel.isLoading.observeAsState(initial = false)
+        /*val isLoading: Boolean by loginViewModel.isLoading.observeAsState(initial = false)
         if (isLoading){
             Box(
                 Modifier
@@ -41,9 +67,29 @@ fun LoginScreen(loginViewModel: LoginViewModel) {
                 CircularProgressIndicator()
             }
         }else {
-            Header(Modifier.align(Alignment.TopEnd))
-            Body(Modifier.align(Alignment.Center), loginViewModel)
-//            Footer(Modifier.align(Alignment.BottomCenter))
+        //Footer(Modifier.align(Alignment.BottomCenter))
+        }*/
+        Header(Modifier.align(Alignment.TopEnd))
+        Body(Modifier.align(Alignment.Center), loginIntentHandler)
+    }
+}
+
+@Composable
+fun LoginContent(loginIntentHandler: LoginIntentHandler, uiState: State<LoginUIState>) {
+    when (uiState.value) {
+        LoginUIState.ErrorUiState -> println("Error Uistate, se fue a las pailas")
+        LoginUIState.DefaultUiState -> {
+            println("Default Uistate")
+            DisplayLoginComponent(loginIntentHandler)
+        }
+        LoginUIState.LoadingUiState -> {
+            println("Loading Uistate")
+            LoadingComponent()
+        }
+        LoginUIState.SuccessUiState -> {
+            DisplayLoginComponent(loginIntentHandler)
+            println("Success Uistate")
+            println(LoginUIState.SuccessUiState)
         }
     }
 }
@@ -80,25 +126,25 @@ fun SignUp() {
 }
 
 @Composable
-fun Body(modifier: Modifier, loginViewModel: LoginViewModel) {
-    val email:String by loginViewModel.email.observeAsState(initial = "")
-    val password:String by loginViewModel.password.observeAsState(initial = "")
-    val isLoginEnable:Boolean by loginViewModel.isLoginEnable.observeAsState(initial = false)
+fun Body(modifier: Modifier, loginIntentHandler: LoginIntentHandler) {
+//    val email:String by loginViewModel.email.observeAsState(initial = "")
+//    val password:String by loginViewModel.password.observeAsState(initial = "")
+//    val isLoginEnable:Boolean by loginViewModel.isLoginEnable.observeAsState(initial = false)
 
     Column(modifier = modifier) {
         Saludo(Modifier.align(Alignment.CenterHorizontally))
         Spacer(modifier = Modifier.size(16.dp))
-        Email(email) {
+        /*Email(email) {
             loginViewModel.onLoginChanged(email = it, password = password)
         }
         Spacer(modifier = Modifier.size(4.dp))
         Password(password) {
             loginViewModel.onLoginChanged(email = email, password = it)
-        }
+        }*/
         Spacer(modifier = Modifier.size(8.dp))
         ForgotPassword(Modifier.align(Alignment.End))
         Spacer(modifier = Modifier.size(16.dp))
-        LoginButton(isLoginEnable, loginViewModel)
+        LoginButton(loginIntentHandler)
         Spacer(modifier = Modifier.size(16.dp))
 //        LoginDivider()
 //        SocialLogin()
@@ -152,11 +198,11 @@ fun LoginDivider() {
     }
 }*/
 
+
 @Composable
-fun LoginButton(loginEnable: Boolean, loginViewModel: LoginViewModel) {
+fun LoginButton(loginIntentHandler: LoginIntentHandler) {
     Button(
-        onClick = { loginViewModel.onLogin()},
-        enabled = loginEnable,
+        onClick = { loginIntentHandler.pressButtonLogin() },
         modifier = Modifier.fillMaxWidth(),
         colors = ButtonDefaults.buttonColors(
             backgroundColor = Color(0xFF4EA8E9),
@@ -237,7 +283,7 @@ fun Email(email: String, onTextChanged: (String) -> Unit) {
 
 @Composable
 fun Saludo(modifier: Modifier) {
-    Text(text= "Hola!", modifier = modifier, fontWeight = FontWeight.Bold, fontSize = 28.sp)
+    Text(text = "Hola!", modifier = modifier, fontWeight = FontWeight.Bold, fontSize = 28.sp)
 }
 
 @Composable
