@@ -16,7 +16,6 @@ class LoginProcessor {
     fun actionProcessor(actions: LoginAction): Flow<OnLoginResult> =
         when (actions) {
             LoginAction.OnLoginAction -> onLoginProcessor()
-            LoginAction.ValidatorButtonLoginAction -> onLoginProcessor()
         }
 
     private fun onLoginProcessor(): Flow<OnLoginResult> =

@@ -86,6 +86,7 @@ fun LoginContent(loginIntentHandler: LoginIntentHandler, uiState: State<LoginUIS
         LoginUIState.SuccessUiState -> {
             DisplayLoginComponent(loginIntentHandler)
             println("Success Uistate")
+            println(LoginUIState.SuccessUiState)
         }
     }
 }
@@ -142,7 +143,6 @@ fun Body(modifier: Modifier, loginIntentHandler: LoginIntentHandler) {
         Spacer(modifier = Modifier.size(16.dp))
         LoginButton(loginIntentHandler)
         Spacer(modifier = Modifier.size(16.dp))
-        ButtonValidator(loginIntentHandler)
 //        LoginDivider()
 //        SocialLogin()
     }
@@ -195,21 +195,6 @@ fun LoginDivider() {
     }
 }*/
 
-@Composable
-fun ButtonValidator(loginIntentHandler: LoginIntentHandler) {
-    Button(
-        onClick = { loginIntentHandler.ValidatorButtonpressing() },
-        modifier = Modifier.fillMaxWidth(),
-        colors = ButtonDefaults.buttonColors(
-            backgroundColor = Color(0xFFE46A28),
-            disabledBackgroundColor = Color(0xFFFCA176),
-            contentColor = Color.White,
-            disabledContentColor = Color.White
-        )
-    ) {
-        Text(text = "Log In")
-    }
-}
 
 @Composable
 fun LoginButton(loginIntentHandler: LoginIntentHandler) {
