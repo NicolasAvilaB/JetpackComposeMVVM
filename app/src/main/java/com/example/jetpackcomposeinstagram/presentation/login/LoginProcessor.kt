@@ -1,8 +1,5 @@
 package com.example.jetpackcomposeinstagram.presentation.login
 
-<<<<<<< HEAD
-class LoginProcessor {
-=======
 import android.util.Log
 import com.example.jetpackcomposeinstagram.data.LoginRepository
 import com.example.jetpackcomposeinstagram.presentation.login.LoginResult.OnLoginResult
@@ -33,5 +30,4 @@ class LoginProcessor {
                 emit(Error)
             }
             .flowOn(Dispatchers.IO)
->>>>>>> develop
 }
