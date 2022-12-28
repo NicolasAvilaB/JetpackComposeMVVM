@@ -2,9 +2,18 @@ package com.example.jetpackcomposeinstagram.presentation.login
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.jetpackcomposeinstagram.presentation.login.LoginUIState.DefaultUiState
+import com.example.jetpackcomposeinstagram.presentation.login.LoginUIntent.OnLoginUIntent
+import com.example.jetpackcomposeinstagram.presentation.login.LoginAction.OnLoginAction
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.*
-import javax.inject.Inject
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.buffer
+import kotlinx.coroutines.flow.flatMapMerge
+import kotlinx.coroutines.flow.scan
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.launchIn
 
 class LoginViewModel : ViewModel() {
 
@@ -12,8 +21,8 @@ class LoginViewModel : ViewModel() {
     private val processor= LoginProcessor()
 
     fun loginuiState(): StateFlow<LoginUIState> = loginuiState
-    val loginInactiveUiState: LoginUIState = LoginUIState.DefaultUiState
-    private val loginuiState: MutableStateFlow<LoginUIState> = MutableStateFlow(loginInactiveUiState)
+    val loginDefaultUiState: LoginUIState = DefaultUiState
+    private val loginuiState: MutableStateFlow<LoginUIState> = MutableStateFlow(loginDefaultUiState)
 
     fun processUserIntentsAndObserveUiStates(
         loginIntents: Flow<LoginUIntent>,
@@ -23,7 +32,7 @@ class LoginViewModel : ViewModel() {
             .flatMapMerge { loginIntent ->
                 processor.actionProcessor(loginIntent.toAction())
             }
-            .scan(loginInactiveUiState) { previousUiState, result ->
+            .scan(loginDefaultUiState) { previousUiState, result ->
                 with(reducer) { previousUiState reduceWith result }
             }
             .onEach {
@@ -34,7 +43,7 @@ class LoginViewModel : ViewModel() {
 
     private fun LoginUIntent.toAction(): LoginAction {
         return when (this) {
-            LoginUIntent.OnLoginUIntent -> LoginAction.OnLoginAction
+            OnLoginUIntent -> OnLoginAction
         }
     }
 }
