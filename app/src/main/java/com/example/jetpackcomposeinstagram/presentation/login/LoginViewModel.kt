@@ -2,12 +2,12 @@ package com.example.jetpackcomposeinstagram.presentation.login
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.jetpackcomposeinstagram.presentation.login.LoginAction.OnLoginAction
 import com.example.jetpackcomposeinstagram.presentation.login.LoginUIState.DefaultUiState
 import com.example.jetpackcomposeinstagram.presentation.login.LoginUIntent.OnLoginUIntent
-import com.example.jetpackcomposeinstagram.presentation.login.LoginAction.OnLoginAction
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.buffer
 import kotlinx.coroutines.flow.flatMapMerge
@@ -18,7 +18,7 @@ import kotlinx.coroutines.flow.launchIn
 class LoginViewModel : ViewModel() {
 
     private val reducer = LoginReducer()
-    private val processor= LoginProcessor()
+    private val processor = LoginProcessor()
 
     fun loginuiState(): StateFlow<LoginUIState> = loginuiState
     val loginDefaultUiState: LoginUIState = DefaultUiState
@@ -35,8 +35,8 @@ class LoginViewModel : ViewModel() {
             .scan(loginDefaultUiState) { previousUiState, result ->
                 with(reducer) { previousUiState reduceWith result }
             }
-            .onEach {
-                loginuiState.value = it
+            .onEach { loginstate ->
+                loginuiState.value = loginstate
             }
             .launchIn(coroutineScope)
     }
