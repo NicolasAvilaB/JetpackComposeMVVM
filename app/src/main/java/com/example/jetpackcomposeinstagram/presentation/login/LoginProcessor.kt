@@ -22,7 +22,7 @@ class LoginProcessor {
         }
 
     private fun onLoginProcessor(): Flow<OnLoginResult> =
-        repository.doLogin()
+        repository.doLogin("","")
             .map { remoteLogin ->
                 Success(remoteLogin) as OnLoginResult
             }
