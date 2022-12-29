@@ -136,12 +136,18 @@ fun SignUp() {
 
 @Composable
 fun Body(modifier: Modifier, loginIntentHandler: LoginIntentHandler) {
+    /*val email:String by LoginIntentHandler.email.observeAsState(initial = "")
+    val password:String by LoginIntentHandler.password.observeAsState(initial = "")*/
+
     Column(modifier = modifier) {
         Saludo(Modifier.align(Alignment.CenterHorizontally))
         Spacer(modifier = Modifier.size(16.dp))
         Spacer(modifier = Modifier.size(8.dp))
         ForgotPassword(Modifier.align(Alignment.End))
         Spacer(modifier = Modifier.size(16.dp))
+
+
+
         LoginButton(loginIntentHandler)
         Spacer(modifier = Modifier.size(16.dp))
     }

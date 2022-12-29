@@ -8,8 +8,8 @@ class LoginRepository {
 
     private val api = LoginService()
 
-    fun doLogin(user: String, password: String): Flow<RemoteLogin> = flow {
-        val response = api.doLogin(user, password)
+    fun doLogin(): Flow<RemoteLogin> = flow {
+        val response = api.doLogin()
         emit(response as RemoteLogin)
     }
 }
