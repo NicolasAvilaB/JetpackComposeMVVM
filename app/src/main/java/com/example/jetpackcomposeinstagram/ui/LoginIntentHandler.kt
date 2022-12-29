@@ -1,5 +1,6 @@
 package com.example.jetpackcomposeinstagram.ui
 
+import android.util.Log
 import com.example.jetpackcomposeinstagram.presentation.login.LoginUIntent
 import com.example.jetpackcomposeinstagram.presentation.login.LoginUIntent.OnLoginUIntent
 import kotlinx.coroutines.CoroutineScope

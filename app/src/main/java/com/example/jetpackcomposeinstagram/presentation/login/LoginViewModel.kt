@@ -5,18 +5,12 @@ import androidx.lifecycle.viewModelScope
 import com.example.jetpackcomposeinstagram.presentation.login.LoginAction.OnLoginAction
 import com.example.jetpackcomposeinstagram.presentation.login.LoginUIState.DefaultUiState
 import com.example.jetpackcomposeinstagram.presentation.login.LoginUIntent.OnLoginUIntent
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.buffer
-import kotlinx.coroutines.flow.flatMapMerge
-import kotlinx.coroutines.flow.scan
-import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.*
+import javax.inject.Inject
 
 class LoginViewModel : ViewModel() {
-
     private val reducer = LoginReducer()
     private val processor = LoginProcessor()
 

@@ -16,7 +16,6 @@ import kotlinx.coroutines.flow.flowOn
 class LoginProcessor {
 
     private val repository = LoginRepository()
-
     fun actionProcessor(actions: LoginAction): Flow<OnLoginResult> =
         when (actions) {
             OnLoginAction -> onLoginProcessor()
