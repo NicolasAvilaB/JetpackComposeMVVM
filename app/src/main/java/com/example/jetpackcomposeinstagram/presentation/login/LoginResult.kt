@@ -6,6 +6,7 @@ sealed class LoginResult {
     sealed class OnLoginResult:LoginResult(){
         object InProgress: OnLoginResult()
         data class Success(val remotelogin: RemoteLogin): OnLoginResult()
-        object Error: OnLoginResult()
+        data class Error(val error: String): OnLoginResult()
+        data class IncorrectCredentials(val message: String): OnLoginResult()
     }
 }

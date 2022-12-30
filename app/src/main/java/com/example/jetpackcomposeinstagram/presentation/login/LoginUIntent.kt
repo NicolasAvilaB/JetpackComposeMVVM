@@ -1,5 +1,5 @@
 package com.example.jetpackcomposeinstagram.presentation.login
 
 sealed class LoginUIntent {
-    object OnLoginUIntent : LoginUIntent()
+    data class OnLoginUIntent(val users: String, val passw: String) : LoginUIntent()
 }

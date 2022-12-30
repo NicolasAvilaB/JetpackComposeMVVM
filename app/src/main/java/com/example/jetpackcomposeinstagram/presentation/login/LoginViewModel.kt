@@ -37,7 +37,7 @@ class LoginViewModel : ViewModel() {
 
     private fun LoginUIntent.toAction(): LoginAction {
         return when (this) {
-            OnLoginUIntent -> OnLoginAction
+            is OnLoginUIntent -> OnLoginAction(this.users, this.passw)
         }
     }
 }

@@ -27,14 +27,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -46,6 +40,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.jetpackcomposeinstagram.presentation.login.LoginUIState
+import com.example.jetpackcomposeinstagram.presentation.login.LoginUIState.ErrorUiState
 import com.example.jetpackcomposeinstagram.presentation.login.LoginViewModel
 
 @Composable
@@ -85,8 +80,8 @@ fun DisplayLoginComponent(loginIntentHandler: LoginIntentHandler) {
 
 @Composable
 fun LoginContent(loginIntentHandler: LoginIntentHandler, uiState: State<LoginUIState>) {
-    when (uiState.value) {
-        LoginUIState.ErrorUiState -> println("Error Uistate, se fue a las pailas")
+    when (val value = uiState.value) {
+        is ErrorUiState -> println(value.error)
         LoginUIState.DefaultUiState -> {
             println("Default Uistate")
             DisplayLoginComponent(loginIntentHandler)
@@ -136,27 +131,30 @@ fun SignUp() {
 
 @Composable
 fun Body(modifier: Modifier, loginIntentHandler: LoginIntentHandler) {
-    /*val email:String by LoginIntentHandler.email.observeAsState(initial = "")
-    val password:String by LoginIntentHandler.password.observeAsState(initial = "")*/
-
+    var users by rememberSaveable { mutableStateOf("")}
+    var passw by rememberSaveable { mutableStateOf("")}
     Column(modifier = modifier) {
         Saludo(Modifier.align(Alignment.CenterHorizontally))
         Spacer(modifier = Modifier.size(16.dp))
         Spacer(modifier = Modifier.size(8.dp))
         ForgotPassword(Modifier.align(Alignment.End))
         Spacer(modifier = Modifier.size(16.dp))
-
-
-
-        LoginButton(loginIntentHandler)
+        Email(users){
+            users = it
+        }
+        Password(passw){
+            passw = it
+        }
+        Spacer(modifier = Modifier.size(16.dp))
+        LoginButton(loginIntentHandler, users, passw)
         Spacer(modifier = Modifier.size(16.dp))
     }
 }
 
 @Composable
-fun LoginButton(loginIntentHandler: LoginIntentHandler) {
+fun LoginButton(loginIntentHandler: LoginIntentHandler, users: String, passw: String) {
     Button(
-        onClick = { loginIntentHandler.pressButtonLogin() },
+        onClick = { loginIntentHandler.pressButtonLogin(users, passw) },
         modifier = Modifier.fillMaxWidth(),
         colors = ButtonDefaults.buttonColors(
             backgroundColor = Color(0xFF4EA8E9),

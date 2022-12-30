@@ -20,9 +20,10 @@ class LoginReducer {
     }
 
     infix fun LoadingUiState.reduceWith(result: LoginResult) = when (result){
-        is OnLoginResult.Error -> ErrorUiState
+        is OnLoginResult.Error -> ErrorUiState(result.error)
         is OnLoginResult.Success -> SuccessUiState
         is OnLoginResult.InProgress -> LoadingUiState
+        is OnLoginResult.IncorrectCredentials -> ErrorUiState(result.message)
         else -> throw unsupportedReduceCase()
     }
 
