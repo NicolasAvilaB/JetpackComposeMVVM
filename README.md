@@ -1,6 +1,6 @@
 # JetpackComposeMVVM
 
-Proyecto con arquitectura MVVM
+Proyecto con arquitectura MVI
 
 ## Features
 - Login
