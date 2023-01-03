@@ -1,4 +1,4 @@
-package com.example.jetpackcomposeinstagram.ui.components.login
+package com.example.jetpackcomposeinstagram.ui.login
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize

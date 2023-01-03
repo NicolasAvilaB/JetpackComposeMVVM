@@ -38,9 +38,9 @@ import com.example.jetpackcomposeinstagram.presentation.login.LoginUIState.Defau
 import com.example.jetpackcomposeinstagram.presentation.login.LoginUIState.SuccessUiState
 import com.example.jetpackcomposeinstagram.presentation.login.LoginUIState.LoadingUiState
 import com.example.jetpackcomposeinstagram.presentation.login.LoginViewModel
-import com.example.jetpackcomposeinstagram.ui.components.MessageDialog
-import com.example.jetpackcomposeinstagram.ui.components.login.LoadingComponent
-import com.example.jetpackcomposeinstagram.ui.components.login.Spacers
+import com.example.jetpackcomposeinstagram.ui.login.components.MessageDialog
+import com.example.jetpackcomposeinstagram.ui.login.LoadingComponent
+import com.example.jetpackcomposeinstagram.ui.login.Spacers
 
 @Composable
 fun LoginScreen(loginViewModel: LoginViewModel) {
