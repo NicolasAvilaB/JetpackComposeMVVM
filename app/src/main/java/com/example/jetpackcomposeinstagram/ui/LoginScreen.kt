@@ -1,18 +1,29 @@
 package com.example.jetpackcomposeinstagram.ui
 
 import android.app.Activity
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.*
+import androidx.compose.material.Text
+import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.Button
+import androidx.compose.material.TextFieldDefaults
+import androidx.compose.material.TextField
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
@@ -22,29 +33,25 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.jetpackcomposeinstagram.presentation.login.LoginUIState
+import com.example.jetpackcomposeinstagram.presentation.login.LoginUIState.ErrorUiState
+import com.example.jetpackcomposeinstagram.presentation.login.LoginUIState.DefaultUiState
+import com.example.jetpackcomposeinstagram.presentation.login.LoginUIState.SuccessUiState
+import com.example.jetpackcomposeinstagram.presentation.login.LoginUIState.LoadingUiState
 import com.example.jetpackcomposeinstagram.presentation.login.LoginViewModel
+import com.example.jetpackcomposeinstagram.ui.login.components.MessageDialog
+import com.example.jetpackcomposeinstagram.ui.login.LoadingComponent
+import com.example.jetpackcomposeinstagram.ui.login.Spacers
 
 @Composable
 fun LoginScreen(loginViewModel: LoginViewModel) {
-
     val loginIntentHandler = LoginIntentHandler().apply {
         coroutineScope = rememberCoroutineScope()
     }
     loginViewModel.processUserIntentsAndObserveUiStates(loginIntentHandler.loginIntents())
     val uiState =
-        remember { loginViewModel.loginuiState() }.collectAsState(initial = loginViewModel.loginInactiveUiState)
+        remember { loginViewModel.loginuiState() }.collectAsState(initial = loginViewModel.loginDefaultUiState)
     LoginContent(loginIntentHandler, uiState)
-}
 
-@Composable
-fun LoadingComponent() {
-    Box(
-        Modifier
-            .fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ) {
-        CircularProgressIndicator()
-    }
 }
 
 @Composable
@@ -54,18 +61,6 @@ fun DisplayLoginComponent(loginIntentHandler: LoginIntentHandler) {
             .fillMaxSize()
             .padding(8.dp)
     ) {
-        /*val isLoading: Boolean by loginViewModel.isLoading.observeAsState(initial = false)
-        if (isLoading){
-            Box(
-                Modifier
-                    .fillMaxSize()
-                    .align(Alignment.Center)
-            ) {
-                CircularProgressIndicator()
-            }
-        }else {
-        //Footer(Modifier.align(Alignment.BottomCenter))
-        }*/
         Header(Modifier.align(Alignment.TopEnd))
         Body(Modifier.align(Alignment.Center), loginIntentHandler)
     }
@@ -73,133 +68,54 @@ fun DisplayLoginComponent(loginIntentHandler: LoginIntentHandler) {
 
 @Composable
 fun LoginContent(loginIntentHandler: LoginIntentHandler, uiState: State<LoginUIState>) {
-    when (uiState.value) {
-        LoginUIState.ErrorUiState -> println("Error Uistate, se fue a las pailas")
-        LoginUIState.DefaultUiState -> {
+    when (val value = uiState.value) {
+        is ErrorUiState -> {
+            DisplayLoginComponent(loginIntentHandler)
+            var show by rememberSaveable { mutableStateOf(true) }
+            MessageDialog(show=show, onDismiss = {show = false}, texterror = value.error)
+        }
+        is DefaultUiState -> {
             println("Default Uistate")
             DisplayLoginComponent(loginIntentHandler)
         }
-        LoginUIState.LoadingUiState -> {
+        is LoadingUiState -> {
             println("Loading Uistate")
             LoadingComponent()
         }
-        LoginUIState.SuccessUiState -> {
-            DisplayLoginComponent(loginIntentHandler)
+        is SuccessUiState -> {
             println("Success Uistate")
-            println(LoginUIState.SuccessUiState)
+            var show by rememberSaveable { mutableStateOf(true) }
+            MessageDialog(show=show, onDismiss = {show = false}, texterror = "Bienvenido !!")
         }
-    }
-}
-
-@Composable
-fun Footer(modifier: Modifier) {
-    Column(modifier = modifier.fillMaxWidth()) {
-        Divider(
-            Modifier
-                .background(Color(0xFFF9F9F9))
-                .height(1.dp)
-                .fillMaxWidth()
-        )
-        Spacer(modifier = Modifier.size(24.dp))
-        SignUp()
-        Spacer(modifier = Modifier.size(24.dp))
-    }
-}
-
-@Composable
-fun SignUp() {
-    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
-        Text(
-            text = "Don't have an account?", fontSize = 12.sp, color = Color(0xFFB5B5B5)
-        )
-        Text(
-            text = "Sign up.",
-            Modifier.padding(horizontal = 8.dp),
-            fontSize = 12.sp,
-            fontWeight = FontWeight.Bold,
-            color = Color(0xFF4EA8E9),
-        )
     }
 }
 
 @Composable
 fun Body(modifier: Modifier, loginIntentHandler: LoginIntentHandler) {
-//    val email:String by loginViewModel.email.observeAsState(initial = "")
-//    val password:String by loginViewModel.password.observeAsState(initial = "")
-//    val isLoginEnable:Boolean by loginViewModel.isLoginEnable.observeAsState(initial = false)
-
+    var users by rememberSaveable { mutableStateOf("")}
+    var passw by rememberSaveable { mutableStateOf("")}
     Column(modifier = modifier) {
         Saludo(Modifier.align(Alignment.CenterHorizontally))
-        Spacer(modifier = Modifier.size(16.dp))
-        /*Email(email) {
-            loginViewModel.onLoginChanged(email = it, password = password)
-        }
-        Spacer(modifier = Modifier.size(4.dp))
-        Password(password) {
-            loginViewModel.onLoginChanged(email = email, password = it)
-        }*/
-        Spacer(modifier = Modifier.size(8.dp))
+        Spacers(8.dp)
         ForgotPassword(Modifier.align(Alignment.End))
-        Spacer(modifier = Modifier.size(16.dp))
-        LoginButton(loginIntentHandler)
-        Spacer(modifier = Modifier.size(16.dp))
-//        LoginDivider()
-//        SocialLogin()
-    }
-}
-
-/*@Composable
-fun SocialLogin() {
-    Row(
-        Modifier.fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.Center
-    ) {
-        Image(
-            painter = painterResource(id = R.drawable.fb),
-            contentDescription = "Social login fb",
-            modifier = Modifier.size(16.dp)
-        )
-        Text(
-            text = "Continue as Aris",
-            fontSize = 14.sp,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier.padding(horizontal = 8.dp),
-            color = Color(0xFF4EA8E9)
-        )
+        Spacers(16.dp)
+        Email(users){
+            users = it
+        }
+        Spacers(8.dp)
+        Password(passw){
+            passw = it
+        }
+        Spacers(16.dp)
+        LoginButton(loginIntentHandler, users, passw)
+        Spacers(16.dp)
     }
 }
 
 @Composable
-fun LoginDivider() {
-    Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-        Divider(
-            Modifier
-                .background(Color(0xFFF9F9F9))
-                .height(1.dp)
-                .weight(1f)
-        )
-        Text(
-            text = "OR",
-            modifier = Modifier.padding(horizontal = 18.dp),
-            fontSize = 12.sp,
-            fontWeight = FontWeight.Bold,
-            color = Color(0xFFB5B5B5)
-        )
-        Divider(
-            Modifier
-                .background(Color(0xFFF9F9F9))
-                .height(1.dp)
-                .weight(1f)
-        )
-    }
-}*/
-
-
-@Composable
-fun LoginButton(loginIntentHandler: LoginIntentHandler) {
+fun LoginButton(loginIntentHandler: LoginIntentHandler, users: String, passw: String) {
     Button(
-        onClick = { loginIntentHandler.pressButtonLogin() },
+        onClick = { loginIntentHandler.pressButtonLogin(users, passw) },
         modifier = Modifier.fillMaxWidth(),
         colors = ButtonDefaults.buttonColors(
             backgroundColor = Color(0xFF4EA8E9),
@@ -264,7 +180,7 @@ fun Email(email: String, onTextChanged: (String) -> Unit) {
     TextField(
         value = email,
         onValueChange = { onTextChanged(it) },
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth().clipToBounds(),
         placeholder = { Text(text = "Email") },
         maxLines = 1,
         singleLine = true,

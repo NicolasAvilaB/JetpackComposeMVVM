@@ -1,26 +1,27 @@
 package com.example.jetpackcomposeinstagram.presentation.login
 
-import android.util.Log
-import android.util.Patterns
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.jetpackcomposeinstagram.data.LoginUseCase
-import dagger.hilt.android.lifecycle.HiltViewModel
+import com.example.jetpackcomposeinstagram.presentation.login.LoginAction.OnLoginAction
+import com.example.jetpackcomposeinstagram.presentation.login.LoginUIState.DefaultUiState
+import com.example.jetpackcomposeinstagram.presentation.login.LoginUIntent.OnLoginUIntent
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
-import javax.inject.Inject
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.buffer
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flatMapMerge
+import kotlinx.coroutines.flow.scan
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.launchIn
 
 class LoginViewModel : ViewModel() {
-
     private val reducer = LoginReducer()
-    private val processor= LoginProcessor()
+    private val processor = LoginProcessor()
 
     fun loginuiState(): StateFlow<LoginUIState> = loginuiState
-    val loginInactiveUiState: LoginUIState = LoginUIState.DefaultUiState
-    private val loginuiState: MutableStateFlow<LoginUIState> = MutableStateFlow(loginInactiveUiState)
+    val loginDefaultUiState: LoginUIState = DefaultUiState
+    private val loginuiState: MutableStateFlow<LoginUIState> = MutableStateFlow(loginDefaultUiState)
 
     fun processUserIntentsAndObserveUiStates(
         loginIntents: Flow<LoginUIntent>,
@@ -30,18 +31,18 @@ class LoginViewModel : ViewModel() {
             .flatMapMerge { loginIntent ->
                 processor.actionProcessor(loginIntent.toAction())
             }
-            .scan(loginInactiveUiState) { previousUiState, result ->
+            .scan(loginDefaultUiState) { previousUiState, result ->
                 with(reducer) { previousUiState reduceWith result }
             }
-            .onEach {
-                loginuiState.value = it
+            .onEach { loginstate ->
+                loginuiState.value = loginstate
             }
             .launchIn(coroutineScope)
     }
 
     private fun LoginUIntent.toAction(): LoginAction {
         return when (this) {
-            LoginUIntent.OnLoginUIntent -> LoginAction.OnLoginAction
+            is OnLoginUIntent -> OnLoginAction(this.users, this.passw)
         }
     }
 }

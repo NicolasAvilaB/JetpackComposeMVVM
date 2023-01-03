@@ -22,7 +22,6 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             JetpackComposeInstagramTheme {
-                // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
@@ -33,13 +32,3 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-
-/*
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    JetpackComposeInstagramTheme {
-        LoginScreen(LoginViewModel())
-
-    }
-}*/
