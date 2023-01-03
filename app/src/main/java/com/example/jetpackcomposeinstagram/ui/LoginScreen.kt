@@ -1,21 +1,13 @@
 package com.example.jetpackcomposeinstagram.ui
 
 import android.app.Activity
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Button
@@ -31,6 +23,7 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
@@ -41,7 +34,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.jetpackcomposeinstagram.presentation.login.LoginUIState
 import com.example.jetpackcomposeinstagram.presentation.login.LoginUIState.ErrorUiState
+import com.example.jetpackcomposeinstagram.presentation.login.LoginUIState.DefaultUiState
+import com.example.jetpackcomposeinstagram.presentation.login.LoginUIState.SuccessUiState
+import com.example.jetpackcomposeinstagram.presentation.login.LoginUIState.LoadingUiState
 import com.example.jetpackcomposeinstagram.presentation.login.LoginViewModel
+import com.example.jetpackcomposeinstagram.ui.components.MessageDialog
+import com.example.jetpackcomposeinstagram.ui.components.login.LoadingComponent
+import com.example.jetpackcomposeinstagram.ui.components.login.Spacers
 
 @Composable
 fun LoginScreen(loginViewModel: LoginViewModel) {
@@ -53,17 +52,6 @@ fun LoginScreen(loginViewModel: LoginViewModel) {
         remember { loginViewModel.loginuiState() }.collectAsState(initial = loginViewModel.loginDefaultUiState)
     LoginContent(loginIntentHandler, uiState)
 
-}
-
-@Composable
-fun LoadingComponent() {
-    Box(
-        Modifier
-            .fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ) {
-        CircularProgressIndicator()
-    }
 }
 
 @Composable
@@ -81,51 +69,24 @@ fun DisplayLoginComponent(loginIntentHandler: LoginIntentHandler) {
 @Composable
 fun LoginContent(loginIntentHandler: LoginIntentHandler, uiState: State<LoginUIState>) {
     when (val value = uiState.value) {
-        is ErrorUiState -> println(value.error)
-        LoginUIState.DefaultUiState -> {
+        is ErrorUiState -> {
+            DisplayLoginComponent(loginIntentHandler)
+            var show by rememberSaveable { mutableStateOf(true) }
+            MessageDialog(show=show, onDismiss = {show = false}, texterror = value.error)
+        }
+        is DefaultUiState -> {
             println("Default Uistate")
             DisplayLoginComponent(loginIntentHandler)
         }
-        LoginUIState.LoadingUiState -> {
+        is LoadingUiState -> {
             println("Loading Uistate")
             LoadingComponent()
         }
-        LoginUIState.SuccessUiState -> {
-            DisplayLoginComponent(loginIntentHandler)
+        is SuccessUiState -> {
             println("Success Uistate")
-            println(LoginUIState.SuccessUiState)
+            var show by rememberSaveable { mutableStateOf(true) }
+            MessageDialog(show=show, onDismiss = {show = false}, texterror = "Bienvenido !!")
         }
-    }
-}
-
-@Composable
-fun Footer(modifier: Modifier) {
-    Column(modifier = modifier.fillMaxWidth()) {
-        Divider(
-            Modifier
-                .background(Color(0xFFF9F9F9))
-                .height(1.dp)
-                .fillMaxWidth()
-        )
-        Spacer(modifier = Modifier.size(24.dp))
-        SignUp()
-        Spacer(modifier = Modifier.size(24.dp))
-    }
-}
-
-@Composable
-fun SignUp() {
-    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
-        Text(
-            text = "Don't have an account?", fontSize = 12.sp, color = Color(0xFFB5B5B5)
-        )
-        Text(
-            text = "Sign up.",
-            Modifier.padding(horizontal = 8.dp),
-            fontSize = 12.sp,
-            fontWeight = FontWeight.Bold,
-            color = Color(0xFF4EA8E9),
-        )
     }
 }
 
@@ -135,19 +96,19 @@ fun Body(modifier: Modifier, loginIntentHandler: LoginIntentHandler) {
     var passw by rememberSaveable { mutableStateOf("")}
     Column(modifier = modifier) {
         Saludo(Modifier.align(Alignment.CenterHorizontally))
-        Spacer(modifier = Modifier.size(16.dp))
-        Spacer(modifier = Modifier.size(8.dp))
+        Spacers(8.dp)
         ForgotPassword(Modifier.align(Alignment.End))
-        Spacer(modifier = Modifier.size(16.dp))
+        Spacers(16.dp)
         Email(users){
             users = it
         }
+        Spacers(8.dp)
         Password(passw){
             passw = it
         }
-        Spacer(modifier = Modifier.size(16.dp))
+        Spacers(16.dp)
         LoginButton(loginIntentHandler, users, passw)
-        Spacer(modifier = Modifier.size(16.dp))
+        Spacers(16.dp)
     }
 }
 
@@ -219,7 +180,7 @@ fun Email(email: String, onTextChanged: (String) -> Unit) {
     TextField(
         value = email,
         onValueChange = { onTextChanged(it) },
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth().clipToBounds(),
         placeholder = { Text(text = "Email") },
         maxLines = 1,
         singleLine = true,

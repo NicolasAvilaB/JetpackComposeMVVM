@@ -18,10 +18,12 @@ class LoginProcessor {
     private fun onLoginProcessor(users: String, passw: String): Flow<OnLoginResult> =
         repository.doLogin()
             .map { remoteLogin ->
-                if (remoteLogin.user != users && remoteLogin.password != passw) {
+                if(users.length == 0 && passw.length == 0) {
+                    EmptyValues(EMPTY_VALUE)
+                }else if (remoteLogin.user != users && remoteLogin.password != passw) {
                     IncorrectCredentials(INCORRECT_CREDENTIALS)
-                } else {
-                    Success(remoteLogin) as OnLoginResult
+                }else {
+                    Success(remoteLogin)
                 }
             }
             .onStart {
@@ -34,6 +36,7 @@ class LoginProcessor {
 
     companion object {
         const val INCORRECT_CREDENTIALS = "Las credenciales son Incorrectas"
-        const val ERROR_CONNECTION = "Error: no ha sido posible conectarse"
+        const val EMPTY_VALUE = "No ha ingresado nada"
+        const val ERROR_CONNECTION = "Error: no ha sido posible conectarse, no es computable"
     }
 }

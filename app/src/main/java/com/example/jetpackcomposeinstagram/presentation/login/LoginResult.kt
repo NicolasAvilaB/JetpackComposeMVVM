@@ -8,5 +8,6 @@ sealed class LoginResult {
         data class Success(val remotelogin: RemoteLogin): OnLoginResult()
         data class Error(val error: String): OnLoginResult()
         data class IncorrectCredentials(val message: String): OnLoginResult()
+        data class EmptyValues(val emptyvalue: String): OnLoginResult()
     }
 }
