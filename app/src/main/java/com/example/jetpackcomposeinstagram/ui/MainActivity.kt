@@ -10,9 +10,7 @@ import androidx.compose.material.Surface
 import androidx.compose.ui.Modifier
 import com.example.jetpackcomposeinstagram.presentation.login.LoginViewModel
 import com.example.jetpackcomposeinstagram.ui.theme.JetpackComposeInstagramTheme
-import dagger.hilt.android.AndroidEntryPoint
 
-@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     val loginViewModel: LoginViewModel by viewModels()
