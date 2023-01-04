@@ -20,14 +20,14 @@ import kotlinx.coroutines.FlowPreview
 @ExperimentalAnimationApi
 class MainActivity : ComponentActivity() {
 
-    /*private val loginComponent: LoginComponent by lazy {
+    private val loginComponent: LoginComponent by lazy {
         initializeMainComponent()
-    }*/
+    }
 
-    /*private fun initializeMainComponent(): LoginComponent {
+    private fun initializeMainComponent(): LoginComponent {
         val applicationComponent = (applicationContext as LoginApp).appComponent
-        //return DaggerLoginComponent.factory().create(applicationComponent)
-    }*/
+        return DaggerLoginComponent.factory().create(applicationComponent)
+    }
 
     val loginViewModel: LoginViewModel by viewModels()
 

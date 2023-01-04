@@ -2,6 +2,7 @@ package com.example.jetpackcomposeinstagram.ui
 
 import android.app.Application
 import com.example.jetpackcomposeinstagram.di.AppComponent
+import com.example.jetpackcomposeinstagram.di.DaggerLoginComponent
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 
@@ -9,10 +10,8 @@ import kotlinx.coroutines.FlowPreview
 @FlowPreview
 class LoginApp : Application() {
 
-    /*val appComponent: AppComponent by lazy { initializeComponent() }
-*/
-    /*private fun initializeComponent(): AppComponent = DaggerLoginComponent
+    val appComponent: AppComponent by lazy { initializeComponent() }
+    private fun initializeComponent(): AppComponent = DaggerLoginComponent
         .factory()
         .create(applicationContext)
-*/
 }
