@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">JetpackMVVM</string>
-    <string name="defaultuistate">JetpackMVVM</string>
-    <string name="loadinguistate">JetpackMVVM</string>
-    <string name="successuistate">JetpackMVVM</string>
+    <string name="defaultuistate">Default UiState</string>
+    <string name="loadinguistate">Loading UiState</string>
+    <string name="successuistate">Success UiState</string>
     <string name="login">Log In</string>
     <string name="saludo">Hola!</string>
     <string name="closeapp">close app</string>
