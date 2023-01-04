@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 
 @Composable
-fun MessageDialog(show: Boolean, onDismiss: () -> Unit, texterror: String) {
+fun MessageDialog(show: Boolean, onDismiss: () -> Unit, text: String) {
     if (show) {
         Dialog(onDismissRequest = { onDismiss() }) {
             Column(
@@ -26,7 +26,7 @@ fun MessageDialog(show: Boolean, onDismiss: () -> Unit, texterror: String) {
             ) {
                 Divider(Modifier.fillMaxWidth(), Color.DarkGray)
                 Column(Modifier.fillMaxWidth()) {
-                    Text(texterror)
+                    Text(text)
                 }
                 Row(Modifier.align(Alignment.End).padding(8.dp)){
                     TextButton(onClick = { onDismiss() }) {

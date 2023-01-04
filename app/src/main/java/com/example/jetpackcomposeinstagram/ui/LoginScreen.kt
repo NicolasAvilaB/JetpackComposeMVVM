@@ -26,6 +26,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -41,6 +42,13 @@ import com.example.jetpackcomposeinstagram.presentation.login.LoginViewModel
 import com.example.jetpackcomposeinstagram.ui.login.components.MessageDialog
 import com.example.jetpackcomposeinstagram.ui.login.LoadingComponent
 import com.example.jetpackcomposeinstagram.ui.login.Spacers
+import com.example.jetpackcomposeinstagram.R.string
+import com.example.jetpackcomposeinstagram.ui.theme.background_textfield_login
+import com.example.jetpackcomposeinstagram.ui.theme.Purple500
+import com.example.jetpackcomposeinstagram.ui.theme.colorText_textfield_login
+import com.example.jetpackcomposeinstagram.ui.theme.background_button_login
+import com.example.jetpackcomposeinstagram.ui.theme.disabled_button_login
+
 
 @Composable
 fun LoginScreen(loginViewModel: LoginViewModel) {
@@ -68,24 +76,28 @@ fun DisplayLoginComponent(loginIntentHandler: LoginIntentHandler) {
 
 @Composable
 fun LoginContent(loginIntentHandler: LoginIntentHandler, uiState: State<LoginUIState>) {
+    val saludo : String = stringResource(id = string.bienvenido)
+    val default_uistate : String = stringResource(id = string.defaultuistate)
+    val success_uistate : String = stringResource(id = string.successuistate)
+    val loading_uistate : String = stringResource(id = string.loadinguistate)
     when (val value = uiState.value) {
         is ErrorUiState -> {
             DisplayLoginComponent(loginIntentHandler)
             var show by rememberSaveable { mutableStateOf(true) }
-            MessageDialog(show=show, onDismiss = {show = false}, texterror = value.error)
+            MessageDialog(show=show, onDismiss = {show = false}, text = value.error)
         }
         is DefaultUiState -> {
-            println("Default Uistate")
+            println(default_uistate)
             DisplayLoginComponent(loginIntentHandler)
         }
         is LoadingUiState -> {
-            println("Loading Uistate")
+            println(loading_uistate)
             LoadingComponent()
         }
         is SuccessUiState -> {
-            println("Success Uistate")
+            println(success_uistate)
             var show by rememberSaveable { mutableStateOf(true) }
-            MessageDialog(show=show, onDismiss = {show = false}, texterror = "Bienvenido !!")
+            MessageDialog(show=show, onDismiss = {show = false}, text = saludo)
         }
     }
 }
@@ -114,28 +126,30 @@ fun Body(modifier: Modifier, loginIntentHandler: LoginIntentHandler) {
 
 @Composable
 fun LoginButton(loginIntentHandler: LoginIntentHandler, users: String, passw: String) {
+    val LogIn : String = stringResource(id = string.login)
     Button(
         onClick = { loginIntentHandler.pressButtonLogin(users, passw) },
         modifier = Modifier.fillMaxWidth(),
         colors = ButtonDefaults.buttonColors(
-            backgroundColor = Color(0xFF4EA8E9),
-            disabledBackgroundColor = Color(0xFF78C8F9),
+            backgroundColor = Color(background_button_login.value),
+            disabledBackgroundColor = Color(disabled_button_login.value),
             contentColor = Color.White,
             disabledContentColor = Color.White
         )
     ) {
-        Text(text = "Log In")
+        Text(text = LogIn)
     }
 }
 
 
 @Composable
 fun ForgotPassword(modifier: Modifier) {
+    val forgotpassword : String = stringResource(id = string.forgotpassword)
     Text(
-        text = "Forgot password?",
+        text = forgotpassword,
         fontSize = 12.sp,
         fontWeight = FontWeight.Bold,
-        color = Color(0xFF4EA8E9),
+        color = Color(Purple500.value),
         modifier = modifier
     )
 }
@@ -143,14 +157,16 @@ fun ForgotPassword(modifier: Modifier) {
 @Composable
 fun Password(password: String, onTextChanged: (String) -> Unit) {
     var passwordVisibility by remember { mutableStateOf(false) }
+    val showpassword : String = stringResource(id = string.showpass)
+    val passwordt : String = stringResource(id = string.password)
     TextField(
         value = password,
         onValueChange = { onTextChanged(it) },
         modifier = Modifier.fillMaxWidth(),
-        placeholder = { Text("Password") },
+        placeholder = { Text(passwordt) },
         colors = TextFieldDefaults.textFieldColors(
-            textColor = Color(0xFFB2B2B2),
-            backgroundColor = Color(0xFFFAFAFA),
+            textColor = Color(colorText_textfield_login.value),
+            backgroundColor = Color(background_textfield_login.value),
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent
         ),
@@ -164,7 +180,7 @@ fun Password(password: String, onTextChanged: (String) -> Unit) {
                 Icons.Filled.Visibility
             }
             IconButton(onClick = { passwordVisibility = !passwordVisibility }) {
-                Icon(imageVector = imagen, contentDescription = "show password")
+                Icon(imageVector = imagen, contentDescription = showpassword)
             }
         },
         visualTransformation = if (passwordVisibility) {
@@ -177,17 +193,20 @@ fun Password(password: String, onTextChanged: (String) -> Unit) {
 
 @Composable
 fun Email(email: String, onTextChanged: (String) -> Unit) {
+    val email_s : String = stringResource(id = string.email_s)
     TextField(
         value = email,
         onValueChange = { onTextChanged(it) },
-        modifier = Modifier.fillMaxWidth().clipToBounds(),
-        placeholder = { Text(text = "Email") },
+        modifier = Modifier
+            .fillMaxWidth()
+            .clipToBounds(),
+        placeholder = { Text(text = email_s) },
         maxLines = 1,
         singleLine = true,
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
         colors = TextFieldDefaults.textFieldColors(
-            textColor = Color(0xFFB2B2B2),
-            backgroundColor = Color(0xFFFAFAFA),
+            textColor = Color(colorText_textfield_login.value),
+            backgroundColor = Color(background_textfield_login.value),
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent
         )
@@ -196,14 +215,16 @@ fun Email(email: String, onTextChanged: (String) -> Unit) {
 
 @Composable
 fun Saludo(modifier: Modifier) {
-    Text(text = "Hola!", modifier = modifier, fontWeight = FontWeight.Bold, fontSize = 28.sp)
+    val saludo : String = stringResource(id = string.saludo)
+    Text(text = saludo, modifier = modifier, fontWeight = FontWeight.Bold, fontSize = 28.sp)
 }
 
 @Composable
 fun Header(modifier: Modifier) {
+    val closeapps : String = stringResource(id = string.closeapp)
     val activity = LocalContext.current as Activity
     Icon(
         imageVector = Icons.Default.Close,
-        contentDescription = "close app",
+        contentDescription = closeapps,
         modifier = modifier.clickable { activity.finish() })
 }

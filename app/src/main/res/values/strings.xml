@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">JetpackMVVM</string>
+    <string name="defaultuistate">JetpackMVVM</string>
+    <string name="loadinguistate">JetpackMVVM</string>
+    <string name="successuistate">JetpackMVVM</string>
+    <string name="login">Log In</string>
+    <string name="saludo">Hola!</string>
+    <string name="closeapp">close app</string>
+    <string name="password">Password</string>
+    <string name="forgotpassword">forgot password</string>
+    <string name="showpass">show password</string>
+    <string name="email_s">Email</string>
+    <string name="bienvenido">Bienvenido !!!</string>
 </resources>
