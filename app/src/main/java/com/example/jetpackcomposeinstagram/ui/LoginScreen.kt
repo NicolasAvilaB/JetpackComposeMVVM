@@ -72,7 +72,7 @@ fun LoginContent(loginIntentHandler: LoginIntentHandler, uiState: State<LoginUIS
         is ErrorUiState -> {
             DisplayLoginComponent(loginIntentHandler)
             var show by rememberSaveable { mutableStateOf(true) }
-            MessageDialog(show=show, onDismiss = {show = false}, texterror = value.error)
+            MessageDialog(show=show, onDismiss = {show = false}, text = value.error)
         }
         is DefaultUiState -> {
             println("Default Uistate")
@@ -85,7 +85,7 @@ fun LoginContent(loginIntentHandler: LoginIntentHandler, uiState: State<LoginUIS
         is SuccessUiState -> {
             println("Success Uistate")
             var show by rememberSaveable { mutableStateOf(true) }
-            MessageDialog(show=show, onDismiss = {show = false}, texterror = "Bienvenido !!")
+            MessageDialog(show=show, onDismiss = {show = false}, text = "Bienvenido !!")
         }
     }
 }
