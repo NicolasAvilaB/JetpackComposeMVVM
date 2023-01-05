@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.ui.Modifier
+import com.example.jetpackcomposeinstagram.di.DaggerLoginComponent
 import com.example.jetpackcomposeinstagram.di.LoginComponent
 import com.example.jetpackcomposeinstagram.presentation.login.LoginViewModel
 import com.example.jetpackcomposeinstagram.ui.theme.JetpackComposeInstagramTheme
