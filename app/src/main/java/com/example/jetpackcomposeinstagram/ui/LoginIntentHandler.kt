@@ -22,3 +22,6 @@ class LoginIntentHandler {
     }
 
 }
+
+//stateflow: se guarda en memoria.
+//sharedflow: solo unidireccional y no guarda en memoria.

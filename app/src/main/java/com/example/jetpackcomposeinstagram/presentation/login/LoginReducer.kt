@@ -28,6 +28,9 @@ class LoginReducer {
         else -> throw unsupportedReduceCase()
     }
 
+    //transformar resultados en estados y solo recibe desde el processor.
+    //MVVM: no tiene "reductor" y puedo enviar a multiple estados.
+
     private infix fun SuccessUiState.reduceWith(result: LoginResult) = when (result) {
         is OnLoginResult.InProgress -> LoadingUiState
         else -> throw unsupportedReduceCase()
