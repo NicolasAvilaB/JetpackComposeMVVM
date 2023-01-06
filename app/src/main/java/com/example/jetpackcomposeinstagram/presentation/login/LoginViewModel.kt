@@ -40,9 +40,6 @@ class LoginViewModel : ViewModel() {
             .launchIn(coroutineScope)
     }
 
-    // preguntar a orlan sobre buffer y collect
-    // flatmapmerge: recibe datos del flujo
-
     private fun LoginUIntent.toAction(): LoginAction {
         return when (this) {
             is OnLoginUIntent -> OnLoginAction(this.users, this.passw)
