@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.ui.Modifier
-import com.example.jetpackcomposeinstagram.di.AppComponent
 import com.example.jetpackcomposeinstagram.di.DaggerLoginComponent
 import com.example.jetpackcomposeinstagram.di.LoginComponent
 import com.example.jetpackcomposeinstagram.presentation.login.LoginViewModel
@@ -30,7 +29,7 @@ class MainActivity : ComponentActivity() {
 
     fun initializeMainComponent(): LoginComponent {
         val applicationComponent = (applicationContext as LoginApp).appComponent
-        return DaggerLoginComponent.factory().create(applicationComponent)
+        return DaggerLoginAppComponent.factory().create(applicationComponent)
     }
 
 
@@ -39,7 +38,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        (this.application as LoginApp).appComponent.provideContext()
+        (application as LoginComponent).inject(this)
 
         setContent {
             JetpackComposeInstagramTheme {

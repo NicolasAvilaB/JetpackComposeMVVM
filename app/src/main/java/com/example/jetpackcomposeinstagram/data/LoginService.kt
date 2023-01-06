@@ -4,7 +4,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class LoginService @Inject constructor(val retrofit : RetrofitHelper.getRetrofit){
+class LoginService @Inject constructor(val retrofit : NetworkModule){
 
     suspend fun doLogin():Any {
         return withContext(Dispatchers.IO){
