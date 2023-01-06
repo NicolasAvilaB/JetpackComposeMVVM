@@ -39,7 +39,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        (this.application as LoginApp).appComponent.inject(this)
+        (this.application as LoginApp).appComponent.provideContext()
 
         setContent {
             JetpackComposeInstagramTheme {
