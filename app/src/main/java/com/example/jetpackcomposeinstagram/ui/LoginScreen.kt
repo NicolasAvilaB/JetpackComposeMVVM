@@ -1,6 +1,7 @@
 package com.example.jetpackcomposeinstagram.ui
 
 import android.app.Activity
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -42,6 +43,7 @@ import com.example.jetpackcomposeinstagram.ui.login.components.MessageDialog
 import com.example.jetpackcomposeinstagram.ui.login.LoadingComponent
 import com.example.jetpackcomposeinstagram.ui.login.Spacers
 
+@ExperimentalAnimationApi
 @Composable
 fun LoginScreen(loginViewModel: LoginViewModel) {
     val loginIntentHandler = LoginIntentHandler().apply {

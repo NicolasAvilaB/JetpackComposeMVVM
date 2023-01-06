@@ -14,10 +14,10 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flowOn
+import javax.inject.Inject
 
-class LoginProcessor {
+class LoginProcessor @Inject constructor(val repository : LoginRepository){
 
-    private val repository = LoginRepository()
     fun actionProcessor(actions: LoginAction): Flow<OnLoginResult> =
         when (actions) {
             is OnLoginAction -> onLoginProcessor(actions.users, actions.passw)
