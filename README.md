@@ -1,6 +1,8 @@
 # JetpackComposeMVVM
 
-Proyecto con arquitectura MVI
+Proyecto con arquitectura MVI y Dagger
 
 ## Features
 - Login
+- Dagger
+- MVI
