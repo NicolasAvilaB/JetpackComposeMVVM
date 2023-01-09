@@ -33,12 +33,13 @@ class MainActivity : ComponentActivity() {
     }
 
 
-//    val loginViewModel: LoginViewModel by viewModels()
+
+    //val loginViewModel: LoginViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        (application as LoginComponent).inject(this)
+        (application as LoginApp).appComponent.inject(this)
 
         setContent {
             JetpackComposeInstagramTheme {
