@@ -29,7 +29,7 @@ class MainActivity : ComponentActivity() {
 
     fun initializeMainComponent(): LoginComponent {
         val applicationComponent = (applicationContext as LoginApp).appComponent
-        return DaggerLoginAppComponent.factory().create(applicationComponent)
+        return DaggerLoginComponent.factory().create(applicationComponent)
     }
 
 

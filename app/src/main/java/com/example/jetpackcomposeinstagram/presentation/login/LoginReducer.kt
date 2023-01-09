@@ -5,8 +5,9 @@ import com.example.jetpackcomposeinstagram.presentation.login.LoginUIState.Error
 import com.example.jetpackcomposeinstagram.presentation.login.LoginUIState.DefaultUiState
 import com.example.jetpackcomposeinstagram.presentation.login.LoginUIState.LoadingUiState
 import com.example.jetpackcomposeinstagram.presentation.login.LoginUIState.SuccessUiState
+import javax.inject.Inject
 
-class LoginReducer {
+class LoginReducer @Inject constructor() {
 
     private fun unsupportedReduceCase() = RuntimeException()
 

@@ -8,7 +8,7 @@ class LoginService @Inject constructor(val retrofit : NetworkModule){
 
     suspend fun doLogin():Any {
         return withContext(Dispatchers.IO){
-           retrofit.create(LoginClient::class.java).doLogin()
+           retrofit.provideLoginRetrofitService().create(LoginClient::class.java).doLogin()
         }
     }
 
