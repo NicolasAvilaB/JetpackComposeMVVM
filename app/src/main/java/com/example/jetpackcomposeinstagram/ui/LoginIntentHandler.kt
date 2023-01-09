@@ -7,8 +7,9 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class LoginIntentHandler {
+class LoginIntentHandler @Inject constructor(){
 
     val loginsIntents = MutableSharedFlow<LoginUIntent>()
     var coroutineScope: CoroutineScope? = null
