@@ -8,11 +8,11 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Module
-class NetworkModule @Inject constructor(){
+class NetworkModule @Inject constructor() {
 
     @Provides
     @Singleton
-    fun provideLoginRetrofitService() : Retrofit {
+    fun provideLoginRetrofitService(): Retrofit {
         return Retrofit.Builder()
             .baseUrl("https://run.mocky.io")
             .addConverterFactory(GsonConverterFactory.create())

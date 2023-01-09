@@ -16,7 +16,9 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
-class LoginProcessor @Inject constructor(val repository : LoginRepository){
+class LoginProcessor @Inject constructor(
+    val repository : LoginRepository
+){
 
     fun actionProcessor(actions: LoginAction): Flow<OnLoginResult> =
         when (actions) {

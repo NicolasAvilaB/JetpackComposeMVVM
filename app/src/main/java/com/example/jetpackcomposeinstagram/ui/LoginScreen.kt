@@ -42,7 +42,9 @@ import com.example.jetpackcomposeinstagram.presentation.login.LoginViewModel
 import com.example.jetpackcomposeinstagram.ui.login.components.MessageDialog
 import com.example.jetpackcomposeinstagram.ui.login.LoadingComponent
 import com.example.jetpackcomposeinstagram.ui.login.Spacers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+@ExperimentalCoroutinesApi
 @ExperimentalAnimationApi
 @Composable
 fun LoginScreen(loginViewModel: LoginViewModel) {

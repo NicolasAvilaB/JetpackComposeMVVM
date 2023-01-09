@@ -32,10 +32,6 @@ class MainActivity : ComponentActivity() {
         return DaggerLoginComponent.factory().create(applicationComponent)
     }
 
-
-
-    //val loginViewModel: LoginViewModel by viewModels()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
