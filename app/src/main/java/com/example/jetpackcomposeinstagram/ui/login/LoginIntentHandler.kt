@@ -1,4 +1,4 @@
-package com.example.jetpackcomposeinstagram.ui.login.ui
+package com.example.jetpackcomposeinstagram.ui.login
 
 import com.example.jetpackcomposeinstagram.presentation.login.LoginUIntent
 import com.example.jetpackcomposeinstagram.presentation.login.LoginUIntent.OnLoginUIntent

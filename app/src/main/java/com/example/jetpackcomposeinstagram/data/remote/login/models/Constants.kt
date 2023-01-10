@@ -1,4 +1,4 @@
-package com.example.jetpackcomposeinstagram.data.remote.models
+package com.example.jetpackcomposeinstagram.data.remote.login.models
 
 internal object Constants {
     const val SUCCESS = "success"

@@ -1,6 +1,6 @@
 package com.example.jetpackcomposeinstagram.presentation.login
 
-import com.example.jetpackcomposeinstagram.data.remote.models.RemoteLogin
+import com.example.jetpackcomposeinstagram.data.remote.login.models.RemoteLogin
 
 sealed class LoginResult {
     sealed class OnLoginResult:LoginResult(){

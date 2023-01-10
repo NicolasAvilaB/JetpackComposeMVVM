@@ -1,6 +1,6 @@
-package com.example.jetpackcomposeinstagram.data
+package com.example.jetpackcomposeinstagram.data.remote.login
 
-import com.example.jetpackcomposeinstagram.data.remote.models.RemoteLogin
+import com.example.jetpackcomposeinstagram.data.remote.login.models.RemoteLogin
 import retrofit2.http.GET
 
 interface LoginClient {

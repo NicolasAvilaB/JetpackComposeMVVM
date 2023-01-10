@@ -11,4 +11,5 @@
     <string name="showpass">show password</string>
     <string name="email_s">Email</string>
     <string name="bienvenido">Bienvenido !!!</string>
+    <string name="home">ListFruitItem</string>
 </resources>
