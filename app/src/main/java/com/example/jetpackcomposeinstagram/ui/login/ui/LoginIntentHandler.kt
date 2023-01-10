@@ -1,4 +1,4 @@
-package com.example.jetpackcomposeinstagram.ui
+package com.example.jetpackcomposeinstagram.ui.login.ui
 
 import com.example.jetpackcomposeinstagram.presentation.login.LoginUIntent
 import com.example.jetpackcomposeinstagram.presentation.login.LoginUIntent.OnLoginUIntent
@@ -22,6 +22,3 @@ class LoginIntentHandler {
     }
 
 }
-
-//stateflow: se guarda en memoria.
-//sharedflow: solo unidireccional y no guarda en memoria.
