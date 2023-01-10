@@ -1,7 +1,7 @@
 package com.example.jetpackcomposeinstagram.ui.listfruititems
 
-import com.example.jetpackcomposeinstagram.presentation.listfruititems.ListShoppingUIntent
-import com.example.jetpackcomposeinstagram.presentation.listfruititems.ListShoppingUIntent.*
+import com.example.jetpackcomposeinstagram.presentation.listfruititems.ListFruitItemsUIntent
+import com.example.jetpackcomposeinstagram.presentation.listfruititems.ListFruitItemsUIntent.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
@@ -10,21 +10,21 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 
 @ExperimentalCoroutinesApi
-class ShoppingIntentHandler {
-    private val shoppingIntents = MutableSharedFlow<ListShoppingUIntent>()
+class ListFruitItemsIntentHandler {
+    private val listfruititemsIntents = MutableSharedFlow<ListFruitItemsUIntent>()
     var coroutineScope: CoroutineScope? = null
 
-    internal fun userIntents(): Flow<ListShoppingUIntent> = shoppingIntents.asSharedFlow()
+    internal fun userIntents(): Flow<ListFruitItemsUIntent> = listfruititemsIntents.asSharedFlow()
 
     fun getListShoppingUIntent() {
         coroutineScope?.launch {
-            shoppingIntents.emit(GetListFruitItemUIntent)
+            listfruititemsIntents.emit(GetListFruitItemUIntent)
         }
     }
 
     fun retryIntent() {
         coroutineScope?.launch {
-            shoppingIntents.emit(RetryUIntent)
+            listfruititemsIntents.emit(RetryUIntent)
         }
     }
 }
