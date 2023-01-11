@@ -1,6 +1,7 @@
 package com.example.jetpackcomposeinstagram.presentation.login
 
 import com.example.jetpackcomposeinstagram.data.LoginRepository
+import com.example.jetpackcomposeinstagram.presentation.DispatchProvider
 import com.example.jetpackcomposeinstagram.presentation.login.LoginAction.OnLoginAction
 import com.example.jetpackcomposeinstagram.presentation.login.LoginResult.OnLoginResult
 import com.example.jetpackcomposeinstagram.presentation.login.LoginResult.OnLoginResult.EmptyValues
@@ -8,7 +9,6 @@ import com.example.jetpackcomposeinstagram.presentation.login.LoginResult.OnLogi
 import com.example.jetpackcomposeinstagram.presentation.login.LoginResult.OnLoginResult.Success
 import com.example.jetpackcomposeinstagram.presentation.login.LoginResult.OnLoginResult.IncorrectCredentials
 import com.example.jetpackcomposeinstagram.presentation.login.LoginResult.OnLoginResult.Error
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
@@ -17,7 +17,8 @@ import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
 class LoginProcessor @Inject constructor(
-    val repository : LoginRepository
+    val repository : LoginRepository,
+    val coroutineDispatchProvider: DispatchProvider
 ){
 
     fun actionProcessor(actions: LoginAction): Flow<OnLoginResult> =
@@ -42,7 +43,7 @@ class LoginProcessor @Inject constructor(
             .catch {
                 emit(Error(ERROR_CONNECTION))
             }
-            .flowOn(Dispatchers.IO)
+            .flowOn(coroutineDispatchProvider.ioDispatch())
 
     companion object {
         const val INCORRECT_CREDENTIALS = "Las credenciales son Incorrectas"
