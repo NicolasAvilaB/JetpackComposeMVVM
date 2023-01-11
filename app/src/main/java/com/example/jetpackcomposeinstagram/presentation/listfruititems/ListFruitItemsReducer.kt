@@ -24,6 +24,10 @@ class ListFruitItemsReducer {
         else -> throw unsupportedReduceCase()
     }
 
+    private infix fun DisplayListFruitItemUiState.reduceWith(result: ListFruitItemsResult): ListFruitItemsUiState {
+        throw unsupportedReduceCase()
+    }
+
     private infix fun ErrorUiState.reduceWith(result: ListFruitItemsResult) = when (result) {
         is GetListFruitItemResult.InProgress -> LoadingUiState
         else -> throw unsupportedReduceCase()
