@@ -7,6 +7,6 @@ class LoginService @Inject constructor(
 ) {
 
     suspend fun doLogin() { loginclient.doLogin() }
-    /*retrofit.provideLoginRetrofitService().create(LoginClient::class.java).doLogin()*/
+    /*.doLogin()*/
 
 }

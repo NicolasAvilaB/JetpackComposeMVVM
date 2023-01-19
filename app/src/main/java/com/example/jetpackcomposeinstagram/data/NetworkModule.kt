@@ -19,4 +19,10 @@ class NetworkModule @Inject constructor() {
             .build()
     }
 
+    @Singleton
+    @Provides
+    fun provideLoginClient(retrofit: Retrofit):LoginClient{
+        return retrofit.create(LoginClient::class.java)
+    }
+
 }
