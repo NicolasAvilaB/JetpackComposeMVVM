@@ -7,6 +7,4 @@ class LoginService @Inject constructor(
 ) {
 
     suspend fun doLogin() { loginclient.doLogin() }
-    /*.doLogin()*/
-
 }
