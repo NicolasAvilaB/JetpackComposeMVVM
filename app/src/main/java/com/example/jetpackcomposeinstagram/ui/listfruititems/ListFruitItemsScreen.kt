@@ -10,12 +10,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavController
 import com.example.jetpackcomposeinstagram.R
-import com.example.jetpackcomposeinstagram.navigation.AppNavigationBuilder
 import com.example.jetpackcomposeinstagram.presentation.listfruititems.ListFruitItemsUiState
 import com.example.jetpackcomposeinstagram.presentation.listfruititems.ListFruitItemsViewModel
-import com.example.jetpackcomposeinstagram.ui.listfruititems.components.DefaultComponent
 import com.example.jetpackcomposeinstagram.ui.listfruititems.components.ListFruitItemComponent
 import com.example.jetpackcomposeinstagram.ui.listfruititems.components.LoadingComponent
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -24,8 +21,10 @@ import kotlinx.coroutines.FlowPreview
 @OptIn(ExperimentalCoroutinesApi::class, FlowPreview::class)
 @Composable
 fun ListFruitItemsScreen(
-    navController: NavController,
-    modifier: Modifier
+    modifier: Modifier,
+    viewmodel: ListFruitItemsViewModel,
+    onBack: () -> Unit = {},
+    onNextScreen: () -> Unit = {},
 ) {
     val listFruitItemViewModel: ListFruitItemsViewModel = viewModel()
     val listFruitItemIntentHandler = ListFruitItemsIntentHandler().apply {
@@ -42,7 +41,7 @@ fun ListFruitItemsScreen(
         }
     }) {
         Scaffold(
-            bottomBar = { AppNavigationBuilder(navController) },
+            //bottomBar = { AppNavigationBuilder(navController) },
         ) {
             ListFruitItemsContent(
                 intentHandler = listFruitItemIntentHandler,

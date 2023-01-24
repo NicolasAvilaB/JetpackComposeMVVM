@@ -43,7 +43,7 @@ import com.example.jetpackcomposeinstagram.ui.login.components.MessageDialog
 import com.example.jetpackcomposeinstagram.ui.login.LoadingComponent
 import com.example.jetpackcomposeinstagram.ui.login.Spacers
 import com.example.jetpackcomposeinstagram.R.string
-import com.example.jetpackcomposeinstagram.navigation.AppNavigation
+import com.example.jetpackcomposeinstagram.navigator.AppNavigation
 import com.example.jetpackcomposeinstagram.ui.login.LoginIntentHandler
 import com.example.jetpackcomposeinstagram.ui.theme.background_textfield_login
 import com.example.jetpackcomposeinstagram.ui.theme.Purple500
