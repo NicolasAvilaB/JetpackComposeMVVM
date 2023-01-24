@@ -29,7 +29,7 @@ fun AppNavigationBuilder (navController: NavController){
 }*/
 
 @ExperimentalAnimationApi
-internal fun NavGraphBuilder.listfruit(
+internal fun NavGraphBuilder.listfruititemnav(
     onBackEvent: () -> Unit = {},
     onNextScreenEvent: () -> Unit = {},
     viewmodel: ListFruitItemsViewModel
