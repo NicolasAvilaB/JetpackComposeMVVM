@@ -1,5 +1,6 @@
 package com.example.jetpackcomposeinstagram.ui.listfruititems
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.Scaffold
@@ -10,7 +11,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.example.jetpackcomposeinstagram.R
+import com.example.jetpackcomposeinstagram.navigator.AppNavigationBuilder
 import com.example.jetpackcomposeinstagram.presentation.listfruititems.ListFruitItemsUiState
 import com.example.jetpackcomposeinstagram.presentation.listfruititems.ListFruitItemsViewModel
 import com.example.jetpackcomposeinstagram.ui.listfruititems.components.ListFruitItemComponent
@@ -18,13 +21,12 @@ import com.example.jetpackcomposeinstagram.ui.listfruititems.components.LoadingC
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @OptIn(ExperimentalCoroutinesApi::class, FlowPreview::class)
 @Composable
 fun ListFruitItemsScreen(
-    modifier: Modifier,
-    viewmodel: ListFruitItemsViewModel,
-    onBack: () -> Unit = {},
-    onNextScreen: () -> Unit = {},
+    navController: NavController,
+    modifier: Modifier
 ) {
     val listFruitItemViewModel: ListFruitItemsViewModel = viewModel()
     val listFruitItemIntentHandler = ListFruitItemsIntentHandler().apply {
@@ -41,7 +43,7 @@ fun ListFruitItemsScreen(
         }
     }) {
         Scaffold(
-            //bottomBar = { AppNavigationBuilder(navController) },
+            bottomBar = { AppNavigationBuilder(navController) },
         ) {
             ListFruitItemsContent(
                 intentHandler = listFruitItemIntentHandler,

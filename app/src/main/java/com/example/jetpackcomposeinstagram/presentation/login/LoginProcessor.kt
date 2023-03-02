@@ -28,7 +28,7 @@ class LoginProcessor {
             .map { remoteLogin ->
                 if(users.length == 0 && passw.length == 0) {
                     EmptyValues(EMPTY_VALUE)
-                }else if (remoteLogin.user != users && remoteLogin.password != passw) {
+                }else if (remoteLogin.user != users || remoteLogin.password != passw) {
                     IncorrectCredentials(INCORRECT_CREDENTIALS)
                 }else {
                     Success(remoteLogin)
