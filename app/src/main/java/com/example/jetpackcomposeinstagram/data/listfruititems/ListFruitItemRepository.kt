@@ -1,4 +1,4 @@
-package com.example.jetpackcomposeinstagram.data.remote.listfruititems
+package com.example.jetpackcomposeinstagram.data.listfruititems
 
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow

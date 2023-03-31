@@ -1,7 +1,6 @@
 package com.example.jetpackcomposeinstagram.presentation.listfruititems
 
-import com.example.jetpackcomposeinstagram.data.remote.listfruititems.ListFruitItemRepository
-import com.example.jetpackcomposeinstagram.data.remote.login.LoginRepository
+import com.example.jetpackcomposeinstagram.data.listfruititems.ListFruitItemRepository
 import com.example.jetpackcomposeinstagram.presentation.listfruititems.ListFruitItemsAction.*
 import com.example.jetpackcomposeinstagram.presentation.listfruititems.ListFruitItemsResult.*
 import kotlinx.coroutines.Dispatchers

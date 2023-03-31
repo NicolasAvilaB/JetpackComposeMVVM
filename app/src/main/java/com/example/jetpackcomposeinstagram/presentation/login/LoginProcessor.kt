@@ -1,6 +1,6 @@
 package com.example.jetpackcomposeinstagram.presentation.login
 
-import com.example.jetpackcomposeinstagram.data.remote.login.LoginRepository
+import com.example.jetpackcomposeinstagram.data.login.LoginRepository
 import com.example.jetpackcomposeinstagram.presentation.login.LoginAction.OnLoginAction
 import com.example.jetpackcomposeinstagram.presentation.login.LoginResult.OnLoginResult
 import com.example.jetpackcomposeinstagram.presentation.login.LoginResult.OnLoginResult.EmptyValues
